@@ -21,8 +21,8 @@ In GitLab, YAML Pipelines helps to setup Continuous Integration/ Continuous Depl
 
 ## GitLab YAML Pipeline Structure
 
-Hierarchy of YAML Pipeline File
-
+## Hierarchy of YAML Pipeline File
+```
 stages:    
   - build
   - test
@@ -46,62 +46,68 @@ deploy-job:
     - "windows"
   script:
     -  write-host "I am in Deploy Stage"
+```
 
 
-Component of GitLab YAML Pipeline
+## Component of GitLab YAML Pipeline
 
 
-workflow
+## workflow
 Workflow helps to control when and what pipeline to run.
-
+```markdown
+var first = 1;
+var second = 2;
+var sum = first + second;
 workflow:
     rules:
         - if: $CI_COMMIT_BRANCH == "master"
           changes:
             - <Project Path>
+```
 
 
-variables
+## variables
 Here we can define all the variables which can be used during the job execution.
-
-
+```
 variables:
    BUILD_PROJECT:"https://example.com/"
    BUILD_SITE:"https://example.com/"
    MSBUILD_PATH:'<Path>\v4.0.30319\MSBuild.exe'
+```
 
 
-before_script
+## before_script
 This helps to execute any script you want execute before the Job script executes.
-
+```
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   before_script:
     - echo "Set the Deploy Version"
+```
 
-stages
+## stages
 With stages we define list of stage which will be part of the CI/CD.
 
 This also define order of execution.
-
+```
 stages:  # List of stages for jobs, and their order of execution
   - build
   - test
   - deploy
+```
 
-
-Job<stage>
+## Job<stage>
 We can defined multiple jobs and each job must be part of the Stage.
-
+```
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
     -  write-host "I am in Build Stage"
+```
 
-
-Script
+## Script
 Here we define list of command for Runner to Execute.
-
+```
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   tags:
@@ -109,10 +115,11 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     -  write-host "I am in Build Stage"
     - msbuild 
+```
 
+## Schema of YAML
 
-Schema of YAML
-
+```
 variables: # Define List of Variables
 stages: # Define List of Stages
 build-job: # Define Job
@@ -121,12 +128,12 @@ build-job: # Define Job
     - "windows" # Define Runner Tag
   script:
     -  write-host #Define command to execute 
+```
 
+## Demo
 
-Demo
-
-Use Case 1: Setup Multi Stage/Multi Job Pipeline
-
+**Use Case 1:** Setup Multi Stage/Multi Job Pipeline
+```
 stages:    
   - build
   - test
@@ -152,11 +159,11 @@ test-job:
     - windows-demo
   script:
     - write-host "Run Test"
+```
 
+**Use Case 2:** Setup Pipeline with variables
 
-Use Case 2: Setup Pipeline with variables
-
-
+```
 variables:
   DEPLOY_PATH: 'C:\DeployIIS' 
 stages:    
@@ -170,11 +177,11 @@ build-job:
     - windows-runner
   script:
     - Write-host "Deployment Path is $DEPLOY_PATH"
+```
 
 
-
-Use Case 3:  Build Visual Studio Project 
-
+**Use Case 3:**  Build Visual Studio Project 
+```
 stages:    
   - build
   - test
@@ -185,20 +192,6 @@ build-job:
     - windows-demo
   script:
     - dotnet build $CI_PROJECT_DIR\BuildNugetPackage.sln /p:Configuration="Release"
+```
 
 
-
-Setup Runner
-Learn to setup GitLab Runner.
-
-
-
-
-
-Demo
-
-
-
-
-
-Reference:
